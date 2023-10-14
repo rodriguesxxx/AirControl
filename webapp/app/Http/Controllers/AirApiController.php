@@ -3,41 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\Models\AirControl;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use PDOException;
 
 class AirApiController extends Controller
 {
 
     public function isActive($id){
-        return response()->json(
-            [
-                "id" => $id,
-                "isActive" => "true",
-	            "disableThem" => "120",
-	            "temp" => "18"
 
-            ], 201);
+        $airControl = DB::select("SELECT * FROM air_controls WHERE id = ?", [$id]);
+        
+        if($airControl){
+            return response()->json( $airControl, 201);
+        } 
+
+        return response()->json( $airControl, 404);
+
     }
 
-    public function active(Request $requestBody){
-        $data = [
-            "id" => $requestBody->id,
-            "isActive" => 0, //padrao: false
-	        "disableThem" => 280, //padrao: 3h 40m
-	        "temp" => 21 //padrao: 21 graus
-        ];
+    public function addAirControl(Request $requestBody){
 
-        $air_control = new AirControl();
+        $airControl = new AirControl();
         
-        $air_control->id = $data["id"];
-        $air_control->isActive = $data["isActive"];
-        $air_control->disableThem = $data["disableThem"];
-        $air_control->temp = $data["temp"];
-        
-        $air_control->save();
+        $airControl->id = $requestBody->id;
+        $airControl->isActive = 0;
+        $airControl->disableThem = 280;
+        $airControl->temp = 18;
 
-        return response()->json(
-            $data, 201);
+        try{
+            $airControl->save();
+            
+        } catch(PDOException $e){
+            return $e;
+        }
+        
     }
 
 

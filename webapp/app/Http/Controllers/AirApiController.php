@@ -7,21 +7,12 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PDOException;
+use App\Utils\AirUtil;
 
 class AirApiController extends Controller
 {
 
-    public function isActive($id){
-
-        $airControl = DB::select("SELECT * FROM air_controls WHERE id = ?", [$id]);
-        
-        if($airControl){
-            return response()->json( $airControl, 201);
-        } 
-
-        return response()->json( $airControl, 404);
-
-    }
+    
 
     public function addAirControl(Request $requestBody){
 
@@ -40,6 +31,30 @@ class AirApiController extends Controller
         }
         
     }
+
+    public function isActive($id){
+
+        $query = DB::select("SELECT * FROM air_controls WHERE id = ?", [$id]);
+        $airControl = AirUtil::thereIsAir($query) ? $query[0] : null;
+
+        try{
+            if( $airControl->isActive ){
+                return response()->json( $airControl, 200);
+            } else{
+                return response()->json("The air conditioning is deactivated", 202);
+            }
+        } catch(Exception $e){
+            return response()->json("Air conditioning does not exist", 404);
+        }
+    }
+    
+    public function activeAir($id, $temp = 18){
+        
+    }
+    
+    
+
+
 
 
     public function ping(){

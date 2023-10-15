@@ -14,5 +14,4 @@ Route::put('/active', [AirApiController::class, 'activeAir']); //exemple: /activ
 
 Route::put('/disable', [AirApiController::class, 'disableAir']); //exemple: /disable?id=INFO22
 
-
 Route::get('/ping', [AirApiController::class, 'ping']);

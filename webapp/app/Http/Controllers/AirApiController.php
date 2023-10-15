@@ -37,7 +37,7 @@ class AirApiController extends Controller
         $id = $request->query('id');
         
         try{
-            $query = DB::select("SELECT * FROM air_controls WHERE id = ?", [$id]);
+            $query = DB::select("SELECT \"isActive\" FROM air_controls WHERE id = ?", [$id]);
             $airControl = AirUtil::thereIsAir($query) ? $query[0] : null;
             
             if( $airControl->isActive ){
@@ -87,11 +87,10 @@ class AirApiController extends Controller
         }
     } 
 
-
     public function ping(){
         return response()->json( [
             "pong" => "is alive"
-        ] , 201);
+        ] , 200);
 
     }
 }

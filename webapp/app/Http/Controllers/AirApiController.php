@@ -32,29 +32,60 @@ class AirApiController extends Controller
         
     }
 
-    public function isActive($id){
+    public function isActive(Request $request){
 
-        $query = DB::select("SELECT * FROM air_controls WHERE id = ?", [$id]);
-        $airControl = AirUtil::thereIsAir($query) ? $query[0] : null;
-
+        $id = $request->query('id');
+        
         try{
+            $query = DB::select("SELECT * FROM air_controls WHERE id = ?", [$id]);
+            $airControl = AirUtil::thereIsAir($query) ? $query[0] : null;
+            
             if( $airControl->isActive ){
-                return response()->json( $airControl, 200);
+                return response()->json( true, 200);
             } else{
-                return response()->json("The air conditioning is deactivated", 202);
+                return response()->json( false, 202);
             }
+
         } catch(Exception $e){
             return response()->json("Air conditioning does not exist", 404);
         }
     }
     
-    public function activeAir($id, $temp = 18){
-        
-    }
-    
-    
+    public function activeAir(Request $request){
 
+        $id = $request->query('id');
 
+        $temp = ( $request->query('temp') != null || $request->query('temp') < 16 ) ? $request->query('temp') : 18;
+
+        try{
+            $query = DB::update("UPDATE air_controls SET \"isActive\" = 1, temp = ? WHERE id = ?;", [$temp, $id]);   
+            
+            if($query){
+                return response()->json("The air conditioning will be turned on soon", 201);
+            } else{
+                return response()->json("Air conditioning does not exist", 404);
+            }
+        } catch(Exception $e) {
+            return response()->json("Internal Server Error", 500);
+        }
+    }  
+
+    public function disableAir(Request $request){
+
+        $id = $request->query('id');
+
+        try{
+            $query = DB::update("UPDATE air_controls SET \"isActive\" = 0 WHERE id = ?;", [$id]);   
+            
+            if($query){
+                return response()->json("The air conditioning will be deactivated soon", 201);
+            } else{
+                return response()->json("Air conditioning does not exist", 404);
+            }
+        } catch(Exception $e) {
+            return response()->json("Internal Server Error", 500);
+        }
+    } 
 
 
     public function ping(){

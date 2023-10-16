@@ -1,0 +1,2 @@
+class NullControllerException(Exception):
+    pass

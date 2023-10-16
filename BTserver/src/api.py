@@ -1,8 +1,5 @@
 import requests
 
-class MicroController:
-    pass
-
 class RequestAPI:
 
     def __init__(self, airID):
@@ -19,12 +16,13 @@ class RequestAPI:
             return True
         return False
 
-    def active(self):
-        r = requests.put("http://localhost:8000/api/active", data={'id':self.ID})
-        print(r.text)
-
+    def active(self, temp=18):
+        r = requests.put("http://localhost:8000/api/active?id={}&temp={}".format(self.ID, temp))
+        return r.text
+    
     def disable(self):
-        pass
+        r = requests.put("http://localhost:8000/api/disable?id={}".format(self.ID))
+        return r.text
 
 
     def apiIsActive():
@@ -36,9 +34,3 @@ class RequestAPI:
         if(r.status_code == 200):
             return True
         return False
-
-
-req = RequestAPI("INFO22")
-
-print(req.isActive())
-# print(req.active())

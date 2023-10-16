@@ -2,15 +2,13 @@ import serial
 
 from exceptions.exceptions import NullControllerException
 
-from api import RequestAPI
-
-
 class MicroController:
+
+    def __init__(self):
+        # self.controller = self.btConnect()
+        pass
+
     
-    def __init__(self, airID):
-        self.ID = airID
-        self.api = RequestAPI(airID)
-        self.controller = self.btConnect()
 
 
     """ 
@@ -33,4 +31,5 @@ class MicroController:
     def receive(self):
         return self.controller.readline().encode().strip()
     
-arduino = MicroController("INFO22")
+    
+    

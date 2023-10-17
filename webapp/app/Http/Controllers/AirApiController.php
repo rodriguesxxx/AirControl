@@ -37,17 +37,21 @@ class AirApiController extends Controller
         $id = $request->query('id');
         
         try{
+
             $query = DB::select("SELECT \"isActive\" FROM air_controls WHERE id = ?", [$id]);
             $airControl = AirUtil::thereIsAir($query) ? $query[0] : null;
             
             if( $airControl->isActive ){
                 return response()->json( true, 200);
             } else{
-                return response()->json( false, 202);
+                return response()->json( false, 200);
             }
 
         } catch(Exception $e){
-            return response()->json("Air conditioning does not exist", 404);
+            // return response()->json("Air conditioning does not exist", 404);
+            // return response()->json($e->getMessage(), 404);
+            return response()->json($id, 404);
+            
         }
     }
     

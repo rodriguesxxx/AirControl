@@ -10,7 +10,7 @@ from utils.system import System
 api = None
 arduino = None
 
-def definations():
+def __DEFINATIONS():
     global api, arduino
     
     try:
@@ -33,27 +33,33 @@ def definations():
         print("tentando se conectar novamente...")
         sleep(2)
         System.clear()
-        definations()
+        __DEFINATIONS()
 
 def main():
 
-    # TODO: implementar logica para o ar nao fique sendo ligado(quando ja estiver ligado)
-
-    # TODO: corrigir o bug dessa logica
-    definations()
-    lastStateAir = True
+    __DEFINATIONS()
     
-    while(True):
+    # TODO: implementar logica para o ar nao fique sendo ligado(quando ja estiver ligado)
+    # TODO: corrigir o bug dessa logica
+    
+    lastStateAir = api.isActiveAir()
+    
+    # print(lastStateAir)
+    while(False):
+
         stateAir = api.isActiveAir()
+        print(stateAir)
+
         if( stateAir == True and lastStateAir == False ):
             # arduino.send("ligar")
             print("ligar")
             lastStateAir = True
-        
+
         elif( stateAir == False and lastStateAir == True):
             # arduino.send("desligar")
             print("desligar")
             lastStateAir = False
+
         sleep(10)
         
 if __name__ == "__main__":

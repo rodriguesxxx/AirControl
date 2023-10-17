@@ -5,15 +5,14 @@ class RequestAPI:
 
     def __init__(self, airID):
         self.setID(airID)
+        
             
 
     def isActiveAir(self):
         try:
-            r = requests.get("http://localhost:8000/api/isActive?id={}".format(self.getID()))
+            r = requests.get(f"http://localhost:8000/api/isActive?id={self.getID()}")
 
-            # print(r.text)
-
-            if(r.status_code == 200):
+            if(r.status_code == 200 or r.text == "true"):
                 return True
             return False
         
@@ -49,7 +48,7 @@ class RequestAPI:
 
 
     def getID(self):
-        self.__ID
+        return self.__ID
 
     def setID(self, id):
         if( RequestAPI.isValidID(id) ):
@@ -64,9 +63,9 @@ class RequestAPI:
 
             # print(r.text)
 
-            if(r.status_code != 404):
+            if(r.status_code != 404 or r.text == "true"):
                 return True
             return False
+        
         except Exception:
             raise InactiveApiException("A api está inativa, verifique o servidor ou os endpoints")
-            

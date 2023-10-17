@@ -48,10 +48,7 @@ class AirApiController extends Controller
             }
 
         } catch(Exception $e){
-            // return response()->json("Air conditioning does not exist", 404);
-            // return response()->json($e->getMessage(), 404);
-            return response()->json($id, 404);
-            
+            return response()->json("Air conditioning does not exist", 404);
         }
     }
     

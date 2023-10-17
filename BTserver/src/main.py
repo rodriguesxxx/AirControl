@@ -37,11 +37,7 @@ def __DEFINATIONS():
 
 def main():
 
-    __DEFINATIONS()
-    
-    # TODO: implementar logica para o ar nao fique sendo ligado(quando ja estiver ligado)
-    # TODO: corrigir o bug dessa logica
-    
+    __DEFINATIONS()    
     lastStateAir = not api.isActiveAir()
     
     # print(lastStateAir)

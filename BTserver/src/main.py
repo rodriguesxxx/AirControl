@@ -42,10 +42,10 @@ def main():
     # TODO: implementar logica para o ar nao fique sendo ligado(quando ja estiver ligado)
     # TODO: corrigir o bug dessa logica
     
-    lastStateAir = api.isActiveAir()
+    lastStateAir = not api.isActiveAir()
     
     # print(lastStateAir)
-    while(False):
+    while(True):
 
         stateAir = api.isActiveAir()
         print(stateAir)

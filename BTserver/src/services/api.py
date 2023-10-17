@@ -12,7 +12,7 @@ class RequestAPI:
         try:
             r = requests.get(f"http://localhost:8000/api/isActive?id={self.getID()}")
 
-            if(r.status_code == 200 or r.text == "true"):
+            if(r.text == "true"):
                 return True
             return False
         

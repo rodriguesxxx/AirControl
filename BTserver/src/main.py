@@ -39,23 +39,17 @@ def main():
 
     __DEFINATIONS()    
     lastStateAir = not api.isActiveAir()
-    
-    # print(lastStateAir)
+
     while(True):
-
         stateAir = api.isActiveAir()
-        print(stateAir)
-
         if( stateAir == True and lastStateAir == False ):
             # arduino.send("ligar")
             print("ligar")
             lastStateAir = True
 
         elif( stateAir == False and lastStateAir == True):
-            # arduino.send("desligar")
             print("desligar")
             lastStateAir = False
-
         sleep(10)
         
 if __name__ == "__main__":

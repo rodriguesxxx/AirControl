@@ -6,8 +6,6 @@ class RequestAPI:
     def __init__(self, airID):
         self.setID(airID)
         
-            
-
     def isActiveAir(self):
         try:
             r = requests.get(f"http://localhost:8000/api/isActive?id={self.getID()}")

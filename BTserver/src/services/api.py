@@ -1,3 +1,4 @@
+from ast import literal_eval
 import requests
 from exceptions.exceptions import InvalidIDException, InactiveApiException
 
@@ -17,6 +18,16 @@ class RequestAPI:
         except Exception:
             raise InactiveApiException("A api está inativa, verifique o servidor ou os endpoints")
     
+
+    def getInfoAir(self):
+        try:
+            r = requests.get(f"http://localhost:8000/api/search?id={self.getID()}")
+            infoAir = literal_eval( r.content.decode() ) 
+            return infoAir
+        except Exception:
+            raise InactiveApiException("A api está inativa, verifique o servidor ou os endpoints")
+
+
     def __active(self, temp=18):
         try:
             r = requests.put("http://localhost:8000/api/active?id={}&temp={}".format(self.getID(), temp))
@@ -30,6 +41,8 @@ class RequestAPI:
             return r.text
         except Exception:
             raise InactiveApiException("A api está inativa, verifique o servidor ou os endpoints")
+    
+    
 
     def apiIsActive(self):
         try:

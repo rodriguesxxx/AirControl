@@ -39,16 +39,28 @@ def main():
 
     __DEFINATIONS()    
     lastStateAir = not api.isActiveAir()
+    lastTempAir = api.getInfoAir()['temp']
 
     while(True):
+        
         stateAir = api.isActiveAir()
-        if( stateAir == True and lastStateAir == False ):
-            # arduino.send("ligar")
-            print("ligar")
+        tempAir = api.getInfoAir()['temp']
+        
+        if( (stateAir == True and lastStateAir == False) or (tempAir != lastTempAir) ):
+            
+            # arduino.send(f"(func:on),(temp:{tempAir})")
+
+            print(f"(func:on),(temp:{tempAir})")
+            
             lastStateAir = True
 
+            lastTempAir = tempAir
+
         elif( stateAir == False and lastStateAir == True):
-            print("desligar")
+            # arduino.send(f"(func:off)")
+            
+            print(f"(func:off)")
+            
             lastStateAir = False
         sleep(10)
         

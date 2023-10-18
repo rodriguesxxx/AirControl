@@ -56,7 +56,7 @@ class AirApiController extends Controller
 
         $id = $request->query('id');
 
-        $temp = ( $request->query('temp') != null || $request->query('temp') < 16 ) ? $request->query('temp') : 18;
+        $temp = ( $request->query('temp') >= 16 ) ? $request->query('temp') : 18;
 
         try{
             $query = DB::update("UPDATE air_controls SET \"isActive\" = 1, temp = ? WHERE id = ?;", [$temp, $id]);   
@@ -86,7 +86,22 @@ class AirApiController extends Controller
         } catch(Exception $e) {
             return response()->json("Internal Server Error", 500);
         }
-    } 
+    }
+
+    public function searchAir(Request $request){
+        $id = $request->query('id');
+        
+        try{
+
+            $query = DB::select("SELECT * FROM air_controls WHERE id = ?", [$id]);
+            $airControl = AirUtil::thereIsAir($query) ? $query[0] : null;
+            return response()->json($airControl, 200);
+
+        } catch(Exception $e){
+            return response()->json("Air conditioning does not exist", 404);
+        }
+
+    }
 
     public function ping(){
         return response()->json( [

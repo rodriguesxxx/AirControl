@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
 
+Route::get('/search', [AirApiController::class,'searchAir']);
 
 Route::post('/add', [AirApiController::class, 'addAirControl']);
 

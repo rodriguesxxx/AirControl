@@ -1,11 +1,13 @@
 import serial
+import os
+import time
 
 from exceptions.exceptions import NullControllerException
 
 class MicroController:
 
     def __init__(self):
-        # self.controller = self.btConnect()
+        self.controller = self.btConnect()
         pass
 
     
@@ -18,11 +20,17 @@ class MicroController:
     """
 
     def btConnect(self):
-        bt_port = "/dev/rfcomm0"  # Substitua pelo caminho do seu dispositivo Bluetooth no sistema (pode variar)
+        
+        bt_address = "98:D3:41:F6:A9:2C"
+        rfcomm_port = 2
+        bt_port = f"/dev/rfcomm{rfcomm_port}"
+        os.system(f"nohup sudo rfcomm connect {rfcomm_port} {bt_address} &")
+        time.sleep(5)
+
         try:
             return serial.Serial(bt_port, 9600)
         except Exception:
-            raise NullControllerException("Houve um erro ao instanciar o controller, cheque a porta bt")
+            raise NullControllerException("Erro ao se conectar o modulo BT, cheque se o modulo esta pariado e tente novamente...")
 
     
     def send(self, msg):

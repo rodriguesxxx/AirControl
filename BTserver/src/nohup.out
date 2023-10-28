@@ -13,3 +13,12 @@ sudo: unable to read password: Erro de entrada/saída
 sudo: uma senha é necessária
 Can't connect RFCOMM socket: Host is down
 Can't connect RFCOMM socket: Device or resource busy
+Can't connect RFCOMM socket: No route to host
+Can't connect RFCOMM socket: No route to host
+Can't connect RFCOMM socket: Host is down
+Can't connect RFCOMM socket: Host is down
+Can't connect RFCOMM socket: Host is down
+Can't connect RFCOMM socket: Host is down
+Connected /dev/rfcomm2 to 98:D3:41:F6:A9:2C on channel 1
+Press CTRL-C for hangup
+Disconnected

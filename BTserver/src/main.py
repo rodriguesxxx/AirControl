@@ -53,17 +53,19 @@ def main():
         tempAir = api.getInfoAir()['temp']
         
         if( (stateAir == True and lastStateAir == False) or (tempAir != lastTempAir) ):
-            arduino.send(f"(func:on),(temp:{tempAir})")
-            # print(f"(func:on),(temp:{tempAir})")
+            # arduino.send(f"(func:on),(temp:{tempAir})")
+            print(f"(func:on),(temp:{tempAir})")
+            arduino.send("h");
             lastStateAir = True
             lastTempAir = tempAir
 
         elif( stateAir == False and lastStateAir == True):
-            arduino.send(f"(func:off)")
-            # print(f"(func:off)")
+            # arduino.send(f"(func:off)")
+            print(f"(func:off)")
+            arduino.send("l");
             lastStateAir = False
             
-        sleep(10)
+        sleep(1)
 
       
 if __name__ == "__main__":
